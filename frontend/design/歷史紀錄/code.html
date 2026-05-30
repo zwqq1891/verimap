@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html lang="zh-Hant"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VeriMap - 歷史紀錄</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#727785",
+                        "secondary-container": "#e3e2e6",
+                        "on-surface-variant": "#414754",
+                        "on-error": "#ffffff",
+                        "on-surface": "#191c1d",
+                        "primary-container": "#1a73e8",
+                        "on-tertiary-fixed": "#410001",
+                        "tertiary": "#bb1712",
+                        "on-secondary-fixed": "#1a1b1e",
+                        "on-primary-container": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-container-highest": "#e1e3e4",
+                        "on-secondary-container": "#646468",
+                        "on-primary-fixed-variant": "#004493",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#c1c6d6",
+                        "surface-dim": "#d9dadb",
+                        "surface-container": "#edeeef",
+                        "tertiary-fixed-dim": "#ffb4a9",
+                        "inverse-primary": "#adc7ff",
+                        "surface-variant": "#e1e3e4",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f8f9fa",
+                        "secondary-fixed": "#e3e2e6",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#c7c6ca",
+                        "on-tertiary-container": "#ffffff",
+                        "inverse-on-surface": "#f0f1f2",
+                        "primary-fixed": "#d8e2ff",
+                        "surface-container-low": "#f3f4f5",
+                        "on-background": "#191c1d",
+                        "primary-fixed-dim": "#adc7ff",
+                        "primary": "#005bbf",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#005bc0",
+                        "tertiary-fixed": "#ffdad5",
+                        "tertiary-container": "#df3429",
+                        "surface": "#f8f9fa",
+                        "on-primary-fixed": "#001a41",
+                        "inverse-surface": "#2e3132",
+                        "background": "#f8f9fa",
+                        "on-secondary-fixed-variant": "#46474a",
+                        "surface-container-high": "#e7e8e9",
+                        "secondary": "#5e5e62",
+                        "on-tertiary-fixed-variant": "#930004"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "max-width": "1280px",
+                        "margin-desktop": "48px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "gutter": "24px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "base": "8px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Manrope", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"],
+                        "headline-lg": ["Manrope", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"],
+                        "body-lg": ["Inter", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"],
+                        "title-lg": ["Manrope", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"],
+                        "body-md": ["Inter", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"],
+                        "label-sm": ["Inter", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"],
+                        "label-lg": ["Inter", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"],
+                        "display-lg": ["Manrope", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "title-lg": ["22px", { "lineHeight": "28px", "fontWeight": "500" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "500" }],
+                        "display-lg": ["57px", { "lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col pb-24 md:pb-0 font-body-md text-body-md">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-40 bg-surface dark:bg-surface-dim shadow-sm flex items-center justify-between px-margin-mobile md:px-margin-desktop py-4 max-w-max-width mx-auto">
+<div class="flex items-center gap-md">
+<img alt="VeriMap Logo" class="w-8 h-8 rounded-md object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ui1tDahI8hxad2Lf2tOmG4ZIhCTLaDnBheS5PBQFKzUJnmcs0c52CptWkP_dwAsHTKkH2uBRreClCUm397ALxpQbEhjzk4YnvEAskUo3Q6bxVNyR_13gOj8EBbQBJNslbCVabjP1bUF6fc7yvoLts-1BoEwvlZRDpBTMPEXYjTnDeE2pM_UcNns5-T2PpW4FA5tIxYc9KQZGp3P8-riu4E7YcQm3XWv7mHZetdxA7Jc7TrB5IWaZq5wyc_k"/>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg font-bold text-primary dark:text-primary-fixed-dim">VeriMap</h1>
+</div>
+<!-- Desktop Navigation (Hidden on mobile) -->
+<nav class="hidden md:flex items-center gap-lg">
+<a class="font-label-lg text-label-lg text-secondary hover:bg-surface-container-high transition-colors px-4 py-2 rounded-lg flex items-center gap-2" href="#">
+<span class="material-symbols-outlined">home</span>
+                Home
+            </a>
+<a class="font-label-lg text-label-lg text-primary font-bold hover:bg-surface-container-high transition-colors px-4 py-2 rounded-lg flex items-center gap-2" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">history</span>
+                History
+            </a>
+<a class="font-label-lg text-label-lg text-secondary hover:bg-surface-container-high transition-colors px-4 py-2 rounded-lg flex items-center gap-2" href="#">
+<span class="material-symbols-outlined">person</span>
+                Profile
+            </a>
+</nav>
+</header>
+<!-- Main Content -->
+<main class="flex-grow max-w-max-width mx-auto w-full px-margin-mobile md:px-margin-desktop py-lg flex flex-col gap-xl">
+<!-- Page Title & Search -->
+<div class="flex flex-col gap-md">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">分析紀錄</h2>
+<div class="relative w-full max-w-2xl">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-12 pr-4 py-3 bg-surface-container-lowest border border-outline rounded-lg text-on-surface placeholder:text-on-surface-variant focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm" placeholder="搜尋店家名稱或地點..." type="text"/>
+</div>
+</div>
+<!-- Section: Today -->
+<section class="flex flex-col gap-md">
+<h3 class="font-title-lg text-title-lg text-on-surface-variant border-b border-surface-variant pb-2">今天</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<!-- Record Card: High Score -->
+<div class="bg-surface-container-lowest rounded-lg p-md shadow-sm border border-surface-variant flex flex-col gap-md hover:shadow-md transition-shadow cursor-pointer">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-title-lg text-title-lg text-on-surface">錦錨餐廳</h4>
+<p class="font-body-md text-body-md text-secondary mt-1">2 小時前 • 台北市大安區</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant">more_vert</span>
+</div>
+<div class="flex items-center gap-md bg-surface-container-low p-3 rounded-DEFAULT">
+<div class="flex-grow h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 85%;"></div>
+</div>
+<div class="flex flex-col items-end min-w-[60px]">
+<span class="font-label-lg text-label-lg font-bold text-primary">85%</span>
+<span class="font-label-sm text-label-sm text-secondary">VeriScore</span>
+</div>
+</div>
+</div>
+<!-- Record Card: Medium Score -->
+<div class="bg-surface-container-lowest rounded-lg p-md shadow-sm border border-surface-variant flex flex-col gap-md hover:shadow-md transition-shadow cursor-pointer">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-title-lg text-title-lg text-on-surface">老街豆花</h4>
+<p class="font-body-md text-body-md text-secondary mt-1">4 小時前 • 新北市淡水區</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant">more_vert</span>
+</div>
+<div class="flex items-center gap-md bg-surface-container-low p-3 rounded-DEFAULT">
+<div class="flex-grow h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-outline" style="width: 68%;"></div>
+</div>
+<div class="flex flex-col items-end min-w-[60px]">
+<span class="font-label-lg text-label-lg font-bold text-outline">68%</span>
+<span class="font-label-sm text-label-sm text-secondary">VeriScore</span>
+</div>
+</div>
+</div>
+<!-- Record Card: Low Score -->
+<div class="bg-error-container/20 rounded-lg p-md shadow-sm border border-error-container flex flex-col gap-md hover:shadow-md transition-shadow cursor-pointer">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-title-lg text-title-lg text-on-surface">42號小館</h4>
+<p class="font-body-md text-body-md text-secondary mt-1">5 小時前 • 台北市信義區</p>
+</div>
+<div class="bg-error-container text-on-error-container px-2 py-1 rounded-DEFAULT flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+<span class="font-label-sm text-label-sm">高風險</span>
+</div>
+</div>
+<div class="flex items-center gap-md bg-surface-container-lowest p-3 rounded-DEFAULT">
+<div class="flex-grow h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-error" style="width: 32%;"></div>
+</div>
+<div class="flex flex-col items-end min-w-[60px]">
+<span class="font-label-lg text-label-lg font-bold text-error">32%</span>
+<span class="font-label-sm text-label-sm text-secondary">VeriScore</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Earlier this week -->
+<section class="flex flex-col gap-md">
+<h3 class="font-title-lg text-title-lg text-on-surface-variant border-b border-surface-variant pb-2">本週稍早</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md opacity-80">
+<!-- Record Card: High Score -->
+<div class="bg-surface-container-lowest rounded-lg p-md shadow-sm border border-surface-variant flex flex-col gap-md hover:opacity-100 transition-opacity cursor-pointer">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-title-lg text-title-lg text-on-surface">極品燒肉</h4>
+<p class="font-body-md text-body-md text-secondary mt-1">3 天前 • 台中市西屯區</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant">more_vert</span>
+</div>
+<div class="flex items-center gap-md bg-surface-container-low p-3 rounded-DEFAULT">
+<div class="flex-grow h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 92%;"></div>
+</div>
+<div class="flex flex-col items-end min-w-[60px]">
+<span class="font-label-lg text-label-lg font-bold text-primary">92%</span>
+<span class="font-label-sm text-label-sm text-secondary">VeriScore</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-surface-container dark:bg-surface-container-high shadow-lg">
+<button class="flex flex-col items-center justify-center text-on-secondary-container hover:bg-secondary-container/50 transition-all active:scale-90 duration-200 p-2 rounded-xl">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</button>
+<!-- Active Nav Item -->
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-6 py-1 active:scale-90 transition-transform duration-200 shadow-sm">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">history</span>
+<span class="font-label-sm text-label-sm font-bold">History</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-secondary-container hover:bg-secondary-container/50 transition-all active:scale-90 duration-200 p-2 rounded-xl">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</button>
+</nav>
+</body></html>

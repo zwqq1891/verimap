@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VeriMap - 實時網路商家信譽與評論可信度分析</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0d12;
+            --surface-color: rgba(20, 24, 33, 0.6);
+            --surface-border: rgba(255, 255, 255, 0.08);
+            --primary: #1a73e8;
+            --primary-glow: rgba(26, 115, 232, 0.35);
+            --secondary: #8b949e;
+            --success: #2ea043;
+            --warning: #d29922;
+            --error: #f85149;
+            --error-glow: rgba(248, 81, 73, 0.2);
+            --gold: #ffb020;
+            --text-main: #f0f6fc;
+            --text-muted: #8b949e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 10% 20%, rgba(26, 115, 232, 0.08) 0px, transparent 50%),
+                radial-gradient(at 90% 80%, rgba(139, 148, 158, 0.05) 0px, transparent 50%);
+            color: var(--text-main);
+            font-family: 'Inter', 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            padding: 30px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Header Style */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px 0;
+        }
+
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, var(--primary), #4285f4);
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .logo-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        /* Glass Card Base */
+        .glass-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: 20px;
+            padding: 24px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        /* Search Section */
+        .search-card {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .search-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .url-input {
+            flex: 1;
+            background: rgba(13, 17, 23, 0.8);
+            border: 1px solid var(--surface-border);
+            border-radius: 10px;
+            padding: 14px 16px;
+            color: var(--text-main);
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .url-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 8px var(--primary-glow);
+        }
+
+        .analyze-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 0 24px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px var(--primary-glow);
+        }
+
+        .analyze-btn:hover {
+            background: #2582ff;
+            transform: translateY(-1px);
+        }
+
+        .analyze-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* Presets */
+        .preset-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .preset-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .preset-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .preset-chip {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--surface-border);
+            border-radius: 30px;
+            padding: 8px 16px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #d1d5db;
+        }
+
+        .preset-chip:hover {
+            background: rgba(26, 115, 232, 0.1);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        /* Profile & Stats Grid */
+        .grid-half {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-half {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .profile-card {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid var(--surface-border);
+            object-fit: cover;
+        }
+
+        .user-details h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .user-details p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .edit-profile-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--surface-border);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .edit-profile-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Bento Stats */
+        .stats-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            width: 100%;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--surface-border);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .stat-box.glowing {
+            border-color: rgba(26, 115, 232, 0.3);
+            box-shadow: 0 0 15px rgba(26, 115, 232, 0.1);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: white;
+            font-family: 'Manrope', sans-serif;
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .stat-unit {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        /* Connections */
+        .connections-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .conn-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+        }
+
+        .conn-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .conn-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .conn-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .conn-info p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Switch styling */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: .3s;
+            border-radius: 24px;
+            border: 1px solid var(--surface-border);
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary);
+            border-color: transparent;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        /* Results Card */
+        .results-card {
+            display: none; /* Shown dynamically */
+            flex-direction: column;
+            gap: 24px;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .results-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .results-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .bookmark-btn {
+            background: transparent;
+            border: none;
+            font-size: 26px;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .bookmark-btn.active {
+            color: var(--gold);
+            transform: scale(1.15);
+            text-shadow: 0 0 10px rgba(255, 176, 32, 0.5);
+        }
+
+        /* Star rating block */
+        .star-box-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 16px;
+            background: rgba(255, 176, 32, 0.08);
+            border: 1px solid rgba(255, 176, 32, 0.2);
+            border-radius: 12px;
+            align-self: center;
+            gap: 12px;
+        }
+
+        .star-box-stars {
+            color: var(--gold);
+            font-size: 20px;
+            letter-spacing: 2px;
+        }
+
+        /* SVG Circular Gauge */
+        .gauge-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin: 10px 0;
+        }
+
+        .gauge-svg {
+            width: 240px;
+            height: 140px;
+        }
+
+        .gauge-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.05);
+            stroke-width: 14;
+            stroke-linecap: round;
+        }
+
+        .gauge-fill-red {
+            fill: none;
+            stroke: url(#gauge-gradient);
+            stroke-width: 14;
+            stroke-linecap: round;
+            stroke-dasharray: 283; /* Half circumference of r=90 */
+            stroke-dashoffset: 283; /* Dynamic */
+            transition: stroke-dashoffset 1s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+
+        .gauge-needle {
+            transform-origin: 120px 120px;
+            transform: rotate(-90deg); /* Range: -90deg to 90deg */
+            transition: transform 1s cubic-bezier(0.1, 0.8, 0.2, 1);
+            fill: #ffffff;
+        }
+
+        .gauge-value {
+            position: absolute;
+            bottom: 25px;
+            font-size: 38px;
+            font-weight: 800;
+            font-family: 'Manrope', sans-serif;
+            color: white;
+        }
+
+        .gauge-label {
+            position: absolute;
+            bottom: 2px;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 30px;
+        }
+
+        /* Indicators and Anti-bomb progress */
+        .antibomb-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--surface-border);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .antibomb-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--primary);
+            border-radius: 4px;
+            transition: width 1s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+
+        /* 40/30/30 Panels Grid */
+        .stratified-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .stratified-panel {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--surface-border);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .strat-icon {
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+        }
+
+        .strat-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .strat-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .strat-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Detail feature metrics list */
+        .detail-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 600px) {
+            .detail-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .detail-item {
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid var(--surface-border);
+            border-radius: 12px;
+            padding: 14px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .detail-icon {
+            font-size: 18px;
+            color: var(--primary);
+        }
+
+        .detail-info h5 {
+            font-size: 13px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .detail-info p {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+            line-height: 1.4;
+        }
+
+        /* History panel */
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .history-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--surface-border);
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .history-item:hover {
+            background: rgba(26, 115, 232, 0.08);
+            border-color: var(--primary);
+        }
+
+        .hist-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .hist-icon {
+            font-size: 18px;
+            color: var(--primary);
+        }
+
+        .hist-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .hist-subtitle {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .hist-badge {
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        /* Loading dialog overlay */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(11, 13, 18, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loading-box {
+            background: #141821;
+            border: 1px solid var(--surface-border);
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 450px;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.05);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .loading-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Edit Profile Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-box {
+            background: #141821;
+            border: 1px solid var(--surface-border);
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 400px;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .btn-cancel {
+            background: transparent;
+            border: 1px solid var(--surface-border);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .btn-save {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Auth Overlay & Card */
+        .auth-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(11, 13, 18, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+        }
+        .auth-card {
+            background: rgba(20, 24, 33, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 36px;
+            width: 90%;
+            max-width: 420px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px var(--primary-glow);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            animation: authScaleUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes authScaleUp {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .auth-header {
+            text-align: center;
+        }
+        .auth-header h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+        .auth-header p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .auth-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+            padding: 4px;
+            border: 1px solid var(--surface-border);
+        }
+        .auth-tab {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .auth-tab.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 2px 8px var(--primary-glow);
+        }
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .auth-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 6px;
+            box-shadow: 0 4px 12px var(--primary-glow);
+        }
+        .auth-btn:hover {
+            background: #2582ff;
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 1. Header -->
+        <header>
+            <div class="logo-group" style="display: flex; align-items: center; gap: 10px;">
+                <svg class="logo-icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" style="width: 32px; height: 32px; filter: drop-shadow(0 0 6px var(--primary-glow));">
+                  <defs>
+                    <linearGradient id="logoGradNavWeb" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style="stop-color:#1a73e8;stop-opacity:1" />
+                      <stop offset="100%" style="stop-color:#1557b0;stop-opacity:1" />
+                    </linearGradient>
+                  </defs>
+                  <path d="M50 15C33.4 15 20 28.4 20 45c0 22.5 30 40 30 40s30-17.5 30-40c0-16.6-13.4-30-30-30z" fill="url(#logoGradNavWeb)" />
+                  <circle cx="50" cy="45" r="12" fill="white" />
+                  <path d="M46 45l3 3 6-6" fill="none" stroke="#1a73e8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <div class="logo-title">VeriMap</div>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted); font-weight: 600;">v2.0.0 • SQLite Fullstack Client</div>
+        </header>
+
+        <!-- 2. Profile Screen & Stats Grid -->
+        <div class="grid-half">
+            <!-- Account & Profile Glass Card -->
+            <div class="glass-card profile-card">
+                <div class="user-info">
+                    <img id="avatar-img" class="user-avatar" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none'><circle cx='50' cy='50' r='50' fill='url(%23grad)'/><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%231a73e8'/><stop offset='100%' stop-color='%238000ff'/></linearGradient></defs><circle cx='50' cy='40' r='18' fill='white' opacity='0.95'/><path d='M20 78 C20 62, 35 58, 50 58 C65 58, 80 62, 80 78' fill='white' opacity='0.95'/></svg>" alt="Avatar">
+                    <div class="user-details">
+                        <h3 id="user-name">載入中...</h3>
+                        <p id="user-email">載入中...</p>
+                    </div>
+                    <div style="margin-left: auto; display: flex; gap: 8px;">
+                        <button class="edit-profile-btn" onclick="openEditModal()">編輯</button>
+                        <button class="edit-profile-btn" style="border-color: rgba(248, 81, 73, 0.4); color: #f85149;" onclick="handleLogout()">登出</button>
+                    </div>
+                </div>
+                
+                <!-- Bento Stats Row -->
+                <div class="stats-row">
+                    <div class="stat-box glowing">
+                        <div class="stat-header">📈 已分析商家數</div>
+                        <div class="stat-value"><span id="stats-total">0</span><span class="stat-unit">間</span></div>
+                    </div>
+                    <div class="stat-box glowing">
+                        <div class="stat-header">⭐ 我的收藏</div>
+                        <div class="stat-value" style="color: var(--gold);"><span id="stats-bookmarks">0</span><span class="stat-unit">項</span></div>
+                    </div>
+                </div>
+
+                <!-- Platform Connections -->
+                <div class="connections-list">
+                    <div style="font-size: 13px; font-weight: 700; color: white; margin-bottom: 4px;">已連接帳號設定 (持久化保存於 SQLite)</div>
+                    <!-- Google -->
+                    <div class="conn-item">
+                        <div class="conn-left">
+                            <div class="conn-icon" style="background: rgba(248, 81, 73, 0.1); color: #f85149;">G</div>
+                            <div class="conn-info">
+                                <h4>Google 帳號</h4>
+                                <p id="conn-google-email">載入中...</p>
+                            </div>
+                        </div>
+                        <div style="font-size: 11px; font-weight: 700; color: var(--success); background: rgba(46, 160, 67, 0.15); padding: 2px 8px; border-radius: 12px;">預設主帳號</div>
+                    </div>
+                    <!-- Apple -->
+                    <div class="conn-item">
+                        <div class="conn-left">
+                            <div class="conn-icon" style="background: rgba(255, 255, 255, 0.1); color: white;"></div>
+                            <div class="conn-info">
+                                <h4>Apple ID</h4>
+                                <p id="conn-apple-status">未連接</p>
+                            </div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="apple-switch" onchange="togglePlatform('apple')">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <!-- LINE -->
+                    <div class="conn-item">
+                        <div class="conn-left">
+                            <div class="conn-icon" style="background: rgba(46, 160, 67, 0.1); color: #2ea043;">L</div>
+                            <div class="conn-info">
+                                <h4>LINE 帳號</h4>
+                                <p id="conn-line-status">未連接</p>
+                            </div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="line-switch" onchange="togglePlatform('line')">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Home Search & Analysis Preset -->
+            <div class="glass-card search-card">
+                <div class="search-title">🎯 啟動 VeriScore 實時打假分析</div>
+                <p style="font-size: 13px; color: var(--text-muted); line-height: 1.4;">在此貼上商家的 Google Maps 網址或直接輸入店名。系統會即時搜尋並進行 40/30/30 分層防灌水過濾分析。</p>
+                <div class="input-group">
+                    <input type="text" id="url-input" class="url-input" placeholder="貼上 Google Maps 網址或輸入店名 (如：中壢長榮醫院)">
+                    <button class="analyze-btn" onclick="startAnalysis()">
+                        <span>🚀</span> 分析
+                    </button>
+                </div>
+
+                <!-- Presets -->
+                <div class="preset-group">
+                    <div class="preset-label">快捷真實測試範例 (實時資料庫對接)</div>
+                    <div class="preset-buttons">
+                        <button class="preset-chip" onclick="applyPreset('長榮醫院', 'https://www.google.com/maps/place/中壢長榮醫院/@24.9644575,121.2475365,15z/data=!4m8!3m7!1s0x346822418308968f:0xe17a8a95fb74ae1e!8m2!3d24.9644573!4d121.257836!9m1!1b1!16s%2Fg%2F1pztd4kyk?entry=ttu&g_ep=EgoyMDI2MDUyNy4wIKXMDSoASAFQAw%3D%3D')">🏥 中壢長榮醫院 (真實 Maps 網址)</button>
+                        <button class="preset-chip" onclick="applyPreset('錦錨餐廳')">🍽️ 錦錨餐廳</button>
+                        <button class="preset-chip" onclick="applyPreset('老街豆花')">🍨 老街豆花</button>
+                        <button class="preset-chip" onclick="applyPreset('42號小館')">🍜 42號小館 (高風險樣板)</button>
+                        <button class="preset-chip" onclick="applyPreset('極品燒肉')">🔥 極品燒肉</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Results Panel (shown on analysis success) -->
+        <div id="results-panel" class="glass-card results-card">
+            <div class="results-header">
+                <div class="results-title" id="res-merchant-name">載入中...</div>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <button id="res-reanalyze-btn" class="edit-profile-btn" style="display: flex; align-items: center; gap: 4px; border-color: rgba(26, 115, 232, 0.4); color: #4285f4; font-size: 12px; padding: 6px 12px;" onclick="reanalyzeCurrent()">🔄 重新分析</button>
+                    <button id="res-bookmark-btn" class="bookmark-btn" onclick="toggleBookmarkCurrent()">☆</button>
+                </div>
+            </div>
+
+            <!-- AI Star Rating Block -->
+            <div class="star-box-container">
+                <div style="font-size: 13px; font-weight: 700; color: var(--gold); display: flex; align-items: center; gap: 4px;">
+                    <span>✨</span> AI 綜合實際星等：
+                </div>
+                <div class="star-box-stars" id="res-stars">★★★★☆</div>
+                <div style="font-size: 14px; font-weight: 800; color: var(--gold);" id="res-star-rating-text">4.2 / 5.0 顆星</div>
+            </div>
+
+            <!-- Gauge Row -->
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <div class="gauge-container">
+                    <svg class="gauge-svg">
+                        <defs>
+                            <linearGradient id="gauge-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#f85149" />
+                                <stop offset="50%" stop-color="#d29922" />
+                                <stop offset="100%" stop-color="#1a73e8" />
+                            </linearGradient>
+                        </defs>
+                        <path class="gauge-bg" d="M 30,120 A 90,90 0 0,1 210,120" />
+                        <path id="gauge-fill" class="gauge-fill-red" d="M 30,120 A 90,90 0 0,1 210,120" />
+                        <polygon id="gauge-needle" class="gauge-needle" points="116,120 124,120 120,40" />
+                        <circle cx="120" cy="120" r="8" fill="#ffffff" />
+                    </svg>
+                    <div class="gauge-value" id="res-score">0%</div>
+                    <div class="gauge-label" id="res-label">普通</div>
+                </div>
+            </div>
+
+            <!-- Anti-Bomb Panel -->
+            <div class="antibomb-box">
+                <div class="antibomb-header">
+                    <div style="font-size: 14px; font-weight: 700; color: white; display: flex; align-items: center; gap: 8px;">
+                        <span>🛡️</span> 同行差評惡意攻擊檢測：<span id="res-bomb-status" style="color: var(--success); font-weight: 800;">安全 (未見同行抹黑)</span>
+                    </div>
+                    <div style="font-size: 13px; font-weight: 700; color: var(--text-muted);" id="res-bomb-ratio-text">0%</div>
+                </div>
+                <div class="progress-bar-bg">
+                    <div id="res-bomb-progress" class="progress-bar-fill"></div>
+                </div>
+            </div>
+
+            <!-- 40/30/30 stratified reports -->
+            <div style="font-size: 14px; font-weight: 700; color: white;">🎯 AI 分層抽樣打假與防抹黑分析</div>
+            <div class="stratified-grid">
+                <!-- Low -->
+                <div class="stratified-panel">
+                    <div class="strat-icon" style="background: rgba(248, 81, 73, 0.1); color: var(--error);">📉</div>
+                    <div class="strat-content">
+                        <div class="strat-title">40% 低星投訴分析 (過濾惡意噪音，還原真實痛點)</div>
+                        <div class="strat-desc" id="res-low-analysis">讀取中...</div>
+                    </div>
+                </div>
+                <!-- Mid -->
+                <div class="stratified-panel">
+                    <div class="strat-icon" style="background: rgba(210, 153, 34, 0.1); color: var(--warning);">⚖️</div>
+                    <div class="strat-content">
+                        <div class="strat-title">30% 中星客觀體驗 (中立客觀回饋)</div>
+                        <div class="strat-desc" id="res-mid-analysis">讀取中...</div>
+                    </div>
+                </div>
+                <!-- High -->
+                <div class="stratified-panel">
+                    <div class="strat-icon" style="background: rgba(46, 160, 67, 0.1); color: var(--success);">📈</div>
+                    <div class="strat-content">
+                        <div class="strat-title">30% 高星好評分析 (排除利益誘因後的真實讚美)</div>
+                        <div class="strat-desc" id="res-high-analysis">讀取中...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NLP metrics -->
+            <div style="font-size: 14px; font-weight: 700; color: white;">⚖️ AI 灌水特徵與痛點分析指標</div>
+            <div class="detail-list">
+                <div class="detail-item">
+                    <div class="detail-icon">🤖</div>
+                    <div class="detail-info">
+                        <h5>無文字高星灌水分析</h5>
+                        <p id="res-zero-text">讀取中...</p>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon">📋</div>
+                    <div class="detail-info">
+                        <h5>重複罐頭文特徵</h5>
+                        <p id="res-duplicate">讀取中...</p>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon">🎁</div>
+                    <div class="detail-info">
+                        <h5>行銷利益引誘特徵</h5>
+                        <p id="res-incentivized">讀取中...</p>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon">🗣️</div>
+                    <div class="detail-info">
+                        <h5>真實顧客服務痛點</h5>
+                        <p id="res-service">讀取中...</p>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon">🧹</div>
+                    <div class="detail-info">
+                        <h5>真實顧客環境痛點</h5>
+                        <p id="res-environment">讀取中...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. History Screen List Panel -->
+        <div class="glass-card" style="display: flex; flex-direction: column; gap: 16px;">
+            <div style="font-size: 16px; font-weight: 700; color: white; display: flex; align-items: center; gap: 8px;">
+                <span>📂</span> SQLite 資料庫歷史分析紀錄 (實時拉取)
+            </div>
+            <div class="history-list" id="history-container">
+                <div style="text-align: center; color: var(--text-muted); font-size: 13px; padding: 20px;">正在從 SQLite 連線獲取分析歷史...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Overlay -->
+    <div id="auth-overlay" class="auth-overlay">
+        <div class="auth-card">
+            <div class="auth-header">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" style="width: 54px; height: 54px; margin: 0 auto 12px auto; display: block; filter: drop-shadow(0 0 10px var(--primary-glow));">
+                  <defs>
+                    <linearGradient id="logoGradAuthWeb" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style="stop-color:#1a73e8;stop-opacity:1" />
+                      <stop offset="100%" style="stop-color:#1557b0;stop-opacity:1" />
+                    </linearGradient>
+                  </defs>
+                  <path d="M50 15C33.4 15 20 28.4 20 45c0 22.5 30 40 30 40s30-17.5 30-40c0-16.6-13.4-30-30-30z" fill="url(#logoGradAuthWeb)" />
+                  <circle cx="50" cy="45" r="12" fill="white" />
+                  <path d="M46 45l3 3 6-6" fill="none" stroke="#1a73e8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <h2>VeriMap</h2>
+                <p id="auth-subtitle">歡迎使用實時商家評論信譽分析系統</p>
+            </div>
+            <div class="auth-tabs">
+                <button id="tab-login" class="auth-tab active" onclick="switchAuthMode(true)">登入</button>
+                <button id="tab-register" class="auth-tab" onclick="switchAuthMode(false)">註冊</button>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="login-username">帳號 (Username)</label>
+                    <input type="text" id="login-username" class="url-input" required placeholder="請輸入帳號">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">密碼 (Password)</label>
+                    <input type="password" id="login-password" class="url-input" required placeholder="請輸入密碼">
+                </div>
+                <button type="submit" class="auth-btn">立即登入</button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="register-form" class="auth-form" style="display: none;" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label for="reg-username">帳號 (Username)</label>
+                    <input type="text" id="reg-username" class="url-input" required placeholder="設定您的登入帳號">
+                </div>
+                <div class="form-group">
+                    <label for="reg-password">密碼 (Password)</label>
+                    <input type="password" id="reg-password" class="url-input" required placeholder="設定 6 位數以上密碼">
+                </div>
+                <div class="form-group">
+                    <label for="reg-name">顯示姓名 (Name)</label>
+                    <input type="text" id="reg-name" class="url-input" required placeholder="例如：陳大文">
+                </div>
+                <div class="form-group">
+                    <label for="reg-email">電子信箱 (Email)</label>
+                    <input type="email" id="reg-email" class="url-input" required placeholder="例如：raymond@example.com">
+                </div>
+                <button type="submit" class="auth-btn">註冊並登入</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-box">
+            <div class="spinner"></div>
+            <div class="loading-title" id="loading-title">VeriScore 正在深度分析中...</div>
+            <div class="loading-desc" id="loading-desc">正在啟動 Google Search 採樣、收集 50-100 則評論背景、過濾惡意差評噪音，請稍候 (約需 10-15 秒)...</div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="edit-modal" class="modal">
+        <div class="modal-box">
+            <div class="modal-title">編輯個人資料</div>
+            <div class="form-group">
+                <label for="input-name">姓名</label>
+                <input type="text" id="input-name" class="url-input">
+            </div>
+            <div class="form-group">
+                <label for="input-email">電子郵件</label>
+                <input type="email" id="input-email" class="url-input">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeEditModal()">取消</button>
+                <button class="btn-save" onclick="saveProfile()">儲存</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Shared dynamic state fully fed by SQLite Backend!
+        const state = {
+            userProfile: {},
+            records: [],
+            currentResultTitle: '',
+            userId: localStorage.getItem('verimap_user_id') || '',
+            currentResultUrl: ''
+        };
+
+        const BACKEND_URL = 'http://127.0.0.1:8000';
+
+        // UI Initialization - Fetching directly from SQLite database!
+        document.addEventListener('DOMContentLoaded', () => {
+            initUI();
+        });
+
+        // Main UI loading logic
+        async function initUI() {
+            const overlay = document.getElementById('auth-overlay');
+            if (!state.userId) {
+                overlay.style.display = 'flex';
+                return;
+            } else {
+                overlay.style.display = 'none';
+            }
+
+            try {
+                // 1. Fetch persistent user profile
+                const profileRes = await fetch(`${BACKEND_URL}/user/profile`, {
+                    headers: { 'x-user-id': state.userId }
+                });
+                if (profileRes.ok) {
+                    state.userProfile = await profileRes.json();
+                } else {
+                    // If user profile fetch fails (e.g. invalid user_id), force logout
+                    handleLogout();
+                    return;
+                }
+
+                // 2. Fetch persistent history records from database
+                const historyRes = await fetch(`${BACKEND_URL}/history`, {
+                    headers: { 'x-user-id': state.userId }
+                });
+                if (historyRes.ok) {
+                    state.records = await historyRes.json();
+                } else {
+                    throw new Error('無法獲取歷史紀錄');
+                }
+
+                // 3. Render
+                renderProfile();
+                renderHistory();
+
+                // Keep result card synchronized if displayed
+                if (state.currentResultTitle) {
+                    loadRecordToResults(state.currentResultTitle);
+                }
+            } catch (err) {
+                console.error("Database connection error: ", err);
+                showSnackbar('⚠️ 連線 SQLite 資料庫後端失敗！請確保後端運行中。');
+            }
+        }
+
+        // Render Profile
+        function renderProfile() {
+            const p = state.userProfile;
+            if (!p.name) return;
+
+            document.getElementById('user-name').innerText = p.name;
+            document.getElementById('user-email').innerText = p.email;
+            document.getElementById('conn-google-email').innerText = p.email;
+            document.getElementById('avatar-img').src = p.avatar;
+
+            // Connect Switch States
+            document.getElementById('apple-switch').checked = p.isAppleConnected;
+            document.getElementById('conn-apple-status').innerText = p.isAppleConnected ? '已連接 (raymond.apple)' : '未連接';
+            document.getElementById('conn-apple-status').style.color = p.isAppleConnected ? 'var(--success)' : 'var(--text-muted)';
+
+            document.getElementById('line-switch').checked = p.isLineConnected;
+            document.getElementById('conn-line-status').innerText = p.isLineConnected ? '已連接 (陳大文)' : '未連接';
+            document.getElementById('conn-line-status').style.color = p.isLineConnected ? 'var(--success)' : 'var(--text-muted)';
+
+            // Dynamic Stats counting
+            document.getElementById('stats-total').innerText = p.totalAnalyzed;
+            document.getElementById('stats-bookmarks').innerText = p.totalBookmarked;
+        }
+
+        // Toggle platform connections in the SQLite database
+        async function togglePlatform(platform) {
+            try {
+                const res = await fetch(`${BACKEND_URL}/user/connect`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'x-user-id': state.userId
+                    },
+                    body: JSON.stringify({ provider: platform })
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    showSnackbar(data.message);
+                    initUI(); // Reload and re-render
+                } else {
+                    throw new Error('切換失敗');
+                }
+            } catch (e) {
+                showSnackbar('⚠️ 後端資料庫保存失敗！');
+            }
+        }
+
+        // Render History List
+        function renderHistory() {
+            const container = document.getElementById('history-container');
+            container.innerHTML = '';
+
+            if (state.records.length === 0) {
+                container.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 13px; padding: 20px;">資料庫無歷史紀錄，請輸入網址開始分析！</div>`;
+                return;
+            }
+
+            state.records.forEach(r => {
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                item.onclick = () => loadRecordToResults(r.title);
+
+                let badgeColor = 'rgba(255, 255, 255, 0.1)';
+                let textColor = 'white';
+                if (r.label.includes('極佳') || r.label.includes('良好')) {
+                    badgeColor = 'rgba(46, 160, 67, 0.15)';
+                    textColor = 'var(--success)';
+                } else if (r.label.includes('風險') || r.label.includes('高灌水')) {
+                    badgeColor = 'rgba(248, 81, 73, 0.15)';
+                    textColor = 'var(--error)';
+                } else if (r.label.includes('中度') || r.label.includes('普通') || r.label.includes('灌水')) {
+                    badgeColor = 'rgba(210, 153, 34, 0.15)';
+                    textColor = 'var(--warning)';
+                }
+
+                item.innerHTML = `
+                    <div class="hist-left">
+                        <div class="hist-icon">${r.title.includes('醫院') ? '🏥' : (r.title.includes('餐廳') || r.title.includes('小館') || r.title.includes('燒肉') ? '🍽️' : '🏪')}</div>
+                        <div>
+                            <div class="hist-name">${r.title} ${r.isBookmarked ? '<span style="color: var(--gold);">★</span>' : ''}</div>
+                            <div class="hist-subtitle">${r.subtitle}</div>
+                        </div>
+                    </div>
+                    <div class="hist-badge" style="background: ${badgeColor}; color: ${textColor};">${r.label}</div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // Load Record into Results View
+        function loadRecordToResults(title) {
+            const r = state.records.find(item => item.title === title);
+            if (!r) return;
+
+            state.currentResultTitle = r.title;
+            state.currentResultUrl = r.url || r.title; // 儲存原始網址以供重新分析使用
+            document.getElementById('res-merchant-name').innerText = r.title;
+            
+            // Bookmark active icon
+            const btn = document.getElementById('res-bookmark-btn');
+            btn.innerText = r.isBookmarked ? '★' : '☆';
+            btn.className = 'bookmark-btn' + (r.isBookmarked ? ' active' : '');
+
+            // Star Rating
+            document.getElementById('res-star-rating-text').innerText = `${r.starRating.toFixed(1)} / 5.0 顆星`;
+            let stars = '';
+            const floorRating = Math.floor(r.starRating);
+            for(let i=0; i<5; i++) {
+                if (i < floorRating) stars += '★';
+                else if (i === floorRating && r.starRating % 1 >= 0.5) stars += '½';
+                else stars += '☆';
+            }
+            document.getElementById('res-stars').innerText = stars;
+
+            // Score and Gauge
+            document.getElementById('res-score').innerText = `${r.score}%`;
+            
+            let labelColor = 'var(--secondary)';
+            let labelBg = 'rgba(255, 255, 255, 0.05)';
+            if (r.score >= 85) {
+                labelColor = 'var(--success)';
+                labelBg = 'rgba(46, 160, 67, 0.15)';
+            } else if (r.score >= 60) {
+                labelColor = 'var(--warning)';
+                labelBg = 'rgba(210, 153, 34, 0.15)';
+            } else {
+                labelColor = 'var(--error)';
+                labelBg = 'rgba(248, 81, 73, 0.15)';
+            }
+            
+            const lbl = document.getElementById('res-label');
+            lbl.innerText = r.label;
+            lbl.style.color = labelColor;
+            lbl.style.backgroundColor = labelBg;
+
+            // Gauge SVG Needle
+            const strokeOffset = 283 - (283 * (r.score / 100));
+            document.getElementById('gauge-fill').style.strokeDashoffset = strokeOffset;
+            
+            const angle = -90 + (180 * (r.score / 100));
+            document.getElementById('gauge-needle').style.transform = `rotate(${angle}deg)`;
+
+            // Anti-bomb
+            const bombStatus = document.getElementById('res-bomb-status');
+            const bombProgress = document.getElementById('res-bomb-progress');
+            document.getElementById('res-bomb-ratio-text').innerText = `${r.maliciousBombRatio}%`;
+            
+            if (r.maliciousBombDetected) {
+                bombStatus.innerText = '⚠️ 偵測到惡意抹黑攻擊';
+                bombStatus.style.color = 'var(--error)';
+                bombProgress.style.backgroundColor = 'var(--error)';
+            } else {
+                bombStatus.innerText = '🛡️ 安全 (未見同行抹黑)';
+                bombStatus.style.color = 'var(--success)';
+                bombProgress.style.backgroundColor = 'var(--primary)';
+            }
+            bombProgress.style.width = `${r.maliciousBombRatio}%`;
+
+            // Stratified analysis text
+            document.getElementById('res-low-analysis').innerText = r.lowStarAnalysis;
+            document.getElementById('res-mid-analysis').innerText = r.midStarAnalysis;
+            document.getElementById('res-high-analysis').innerText = r.highStarAnalysis;
+
+            // NLP Insights
+            document.getElementById('res-zero-text').innerText = r.zeroTextSpam;
+            document.getElementById('res-duplicate').innerText = r.duplicatePatterns;
+            document.getElementById('res-incentivized').innerText = r.incentivizedTriggers || '無資料';
+            document.getElementById('res-service').innerText = r.serviceAttitude;
+            document.getElementById('res-environment').innerText = r.environmentHygiene;
+
+            // Show results panel
+            document.getElementById('results-panel').style.display = 'flex';
+        }
+
+        // Toggle bookmark in the SQLite database in real-time!
+        async function toggleBookmarkCurrent() {
+            if (!state.currentResultTitle) return;
+            
+            try {
+                const res = await fetch(`${BACKEND_URL}/bookmarks/toggle`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'x-user-id': state.userId
+                    },
+                    body: JSON.stringify({ title: state.currentResultTitle })
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    showSnackbar(data.message);
+                    initUI(); // Fetch and re-render everything dynamically from database!
+                } else {
+                    throw new Error('收藏切換失敗');
+                }
+            } catch (e) {
+                showSnackbar('⚠️ 收藏寫入資料庫失敗！');
+            }
+        }
+
+        // Apply presets
+        function applyPreset(name, url) {
+            if (url) {
+                document.getElementById('url-input').value = url;
+                startAnalysis();
+            } else {
+                document.getElementById('url-input').value = name;
+                loadRecordToResults(name);
+            }
+        }
+
+        // Start real-time analysis (forceRealtime = true blocks local record matching to refresh data)
+        async function startAnalysis(forceRealtime = false) {
+            const input = document.getElementById('url-input').value.trim();
+            if (!input) {
+                showSnackbar('請輸入 Google 地圖網址或商家名稱！');
+                return;
+            }
+
+            // If not forced and input is exactly a preset template name in local memory, load it
+            if (!forceRealtime && state.records.some(r => r.title === input)) {
+                loadRecordToResults(input);
+                return;
+            }
+
+            // Show loading dialog
+            const overlay = document.getElementById('loading-overlay');
+            const desc = document.getElementById('loading-desc');
+            overlay.style.display = 'flex';
+            
+            let loadingStep = 0;
+            const steps = [
+                '正在啟動 Google Search 聯網採樣...',
+                '正在搜尋低星投訴、爭議新聞、客觀體驗...',
+                '正在大量解析並過濾同行無理抹黑與水軍灌水...',
+                '正在進行 40/30/30 分層抽樣加權計算...',
+                '正在產出 AI 綜合實際星等並自動存入 SQLite...'
+            ];
+            
+            const stepInterval = setInterval(() => {
+                loadingStep = (loadingStep + 1) % steps.length;
+                desc.innerText = steps[loadingStep];
+            }, 2500);
+
+            try {
+                // Call real-time FastAPI analyze endpoint
+                const response = await fetch(`${BACKEND_URL}/analyze`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'x-user-id': state.userId
+                    },
+                    body: JSON.stringify({ url: input })
+                });
+
+                clearInterval(stepInterval);
+                overlay.style.display = 'none';
+
+                if (response.status === 200) {
+                    const data = await response.json();
+                    const merchantName = data.merchant_name || '未定義商家';
+                    
+                    state.currentResultTitle = merchantName;
+                    await initUI(); // Pull the freshly saved record and profile stats from SQLite!
+                    loadRecordToResults(merchantName);
+                    
+                    showSnackbar(`✓ 實時分析成功並已儲存至 SQLite：${merchantName}`);
+                } else {
+                    const errData = await response.json();
+                    throw new Error(errData.detail || '後端伺服器內部錯誤');
+                }
+            } catch (error) {
+                clearInterval(stepInterval);
+                overlay.style.display = 'none';
+                alert(`⚠️ 實時分析連線失敗！\n\n原因：${error.message}\n\n提醒：請確保您的 FastAPI 後端服務已在背景啟動 (uvicorn main:app --port 8000) 且 GEMINI_API_KEY 環境變數有效！`);
+            }
+        }
+
+        // Edit Profile modal control
+        function openEditModal() {
+            document.getElementById('input-name').value = state.userProfile.name;
+            document.getElementById('input-email').value = state.userProfile.email;
+            document.getElementById('edit-modal').style.display = 'flex';
+        }
+
+        function closeEditModal() {
+            document.getElementById('edit-modal').style.display = 'none';
+        }
+
+        // Save user profile directly to SQLite database!
+        async function saveProfile() {
+            const name = document.getElementById('input-name').value.trim();
+            const email = document.getElementById('input-email').value.trim();
+
+            if (name && email) {
+                try {
+                    const res = await fetch(`${BACKEND_URL}/user/profile`, {
+                        method: 'PUT',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'x-user-id': state.userId
+                        },
+                        body: JSON.stringify({ name: name, email: email })
+                    });
+
+                    if (res.ok) {
+                        closeEditModal();
+                        showSnackbar('✓ 個人資料修改成功並已保存至 SQLite！');
+                        initUI(); // Reload from database
+                    } else {
+                        throw new Error('更新失敗');
+                    }
+                } catch (e) {
+                    showSnackbar('⚠️ 保存至資料庫失敗！');
+                }
+            }
+        }
+
+        // Auth UI control
+        function switchAuthMode(isLogin) {
+            document.getElementById('tab-login').classList.toggle('active', isLogin);
+            document.getElementById('tab-register').classList.toggle('active', !isLogin);
+            
+            document.getElementById('login-form').style.display = isLogin ? 'flex' : 'none';
+            document.getElementById('register-form').style.display = isLogin ? 'none' : 'flex';
+            
+            document.getElementById('auth-subtitle').innerText = isLogin 
+                ? '歡迎使用實時商家評論信譽分析系統' 
+                : '建立 VeriMap 新帳號，開始管理歷史紀錄與收藏';
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            const usernameInput = document.getElementById('login-username').value.trim();
+            const passwordInput = document.getElementById('login-password').value;
+
+            if (!usernameInput || !passwordInput) {
+                showSnackbar('請填寫完整登入資訊！');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/user/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: usernameInput,
+                        password: passwordInput
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    state.userId = data.user.id;
+                    localStorage.setItem('verimap_user_id', data.user.id);
+                    localStorage.setItem('verimap_username', data.user.username);
+                    
+                    showSnackbar(`✓ 登入成功！歡迎 ${data.user.name}`);
+                    
+                    // Clear inputs
+                    document.getElementById('login-username').value = '';
+                    document.getElementById('login-password').value = '';
+                    
+                    initUI();
+                } else {
+                    const errData = await response.json();
+                    showSnackbar(`⚠️ 登入失敗：${errData.detail || '帳號或密碼錯誤'}`);
+                }
+            } catch (err) {
+                showSnackbar('⚠️ 無法連接至後端伺服器！');
+            }
+        }
+
+        async function handleRegister(event) {
+            event.preventDefault();
+            const usernameInput = document.getElementById('reg-username').value.trim();
+            const passwordInput = document.getElementById('reg-password').value;
+            const nameInput = document.getElementById('reg-name').value.trim();
+            const emailInput = document.getElementById('reg-email').value.trim();
+
+            if (!usernameInput || !passwordInput || !nameInput || !emailInput) {
+                showSnackbar('請填寫完整註冊欄位！');
+                return;
+            }
+
+            if (passwordInput.length < 6) {
+                showSnackbar('密碼長度必須大於或等於 6 位！');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/user/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: usernameInput,
+                        password: passwordInput,
+                        name: nameInput,
+                        email: emailInput
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    showSnackbar('✓ 註冊成功！正在為您自動登入...');
+                    
+                    // Automatically log in after registration
+                    const loginRes = await fetch(`${BACKEND_URL}/user/login`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            username: usernameInput,
+                            password: passwordInput
+                        })
+                    });
+
+                    if (loginRes.ok) {
+                        const loginData = await loginRes.json();
+                        state.userId = loginData.user.id;
+                        localStorage.setItem('verimap_user_id', loginData.user.id);
+                        localStorage.setItem('verimap_username', loginData.user.username);
+                        
+                        // Clear inputs
+                        document.getElementById('reg-username').value = '';
+                        document.getElementById('reg-password').value = '';
+                        document.getElementById('reg-name').value = '';
+                        document.getElementById('reg-email').value = '';
+
+                        initUI();
+                    } else {
+                        switchAuthMode(true);
+                    }
+                } else {
+                    const errData = await response.json();
+                    showSnackbar(`⚠️ 註冊失敗：${errData.detail || '帳號已被使用'}`);
+                }
+            } catch (err) {
+                showSnackbar('⚠️ 無法連接至後端伺服器！');
+            }
+        }
+
+        function handleLogout() {
+            state.userId = '';
+            state.userProfile = {};
+            state.records = [];
+            state.currentResultTitle = '';
+            state.currentResultUrl = '';
+            localStorage.removeItem('verimap_user_id');
+            localStorage.removeItem('verimap_username');
+            
+            // Hide results card
+            document.getElementById('results-panel').style.display = 'none';
+            document.getElementById('url-input').value = '';
+            
+            showSnackbar('已安全登出系統！');
+            initUI();
+        }
+
+        async function reanalyzeCurrent() {
+            if (!state.currentResultUrl) {
+                showSnackbar('⚠️ 無法取得商家之原始分析網址！');
+                return;
+            }
+            document.getElementById('url-input').value = state.currentResultUrl;
+            startAnalysis(true);
+        }
+
+        // Snackbar helper
+        function showSnackbar(msg) {
+            const snack = document.createElement('div');
+            snack.innerText = msg;
+            snack.style.position = 'fixed';
+            snack.style.bottom = '20px';
+            snack.style.left = '50%';
+            snack.style.transform = 'translateX(-50%)';
+            snack.style.background = 'rgba(26, 115, 232, 0.95)';
+            snack.style.color = 'white';
+            snack.style.padding = '10px 20px';
+            snack.style.borderRadius = '30px';
+            snack.style.fontSize = '13px';
+            snack.style.fontWeight = '600';
+            snack.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.3)';
+            snack.style.zIndex = '2000';
+            snack.style.transition = 'opacity 0.3s ease';
+            document.body.appendChild(snack);
+            
+            setTimeout(() => {
+                snack.style.opacity = '0';
+                setTimeout(() => snack.remove(), 300);
+            }, 2500);
+        }
+    </script>
+</body>
+</html>

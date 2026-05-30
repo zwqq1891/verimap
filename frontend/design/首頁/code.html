@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title class="">VeriMap - 首頁</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Manrope:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#d9dadb",
+                        "primary-fixed": "#d8e2ff",
+                        "on-primary-fixed": "#001a41",
+                        "outline-variant": "#c1c6d6",
+                        "secondary-fixed-dim": "#c7c6ca",
+                        "surface-bright": "#f8f9fa",
+                        "primary": "#005bbf",
+                        "on-surface-variant": "#414754",
+                        "secondary-fixed": "#e3e2e6",
+                        "error": "#ba1a1a",
+                        "on-error-container": "#93000a",
+                        "surface-tint": "#005bc0",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#191c1d",
+                        "primary-container": "#1a73e8",
+                        "on-background": "#191c1d",
+                        "outline": "#727785",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed": "#410001",
+                        "surface-container-low": "#f3f4f5",
+                        "secondary": "#5e5e62",
+                        "on-secondary-container": "#646468",
+                        "on-tertiary-container": "#ffffff",
+                        "secondary-container": "#e3e2e6",
+                        "on-secondary-fixed": "#1a1b1e",
+                        "tertiary-container": "#df3429",
+                        "on-tertiary-fixed-variant": "#930004",
+                        "on-primary-fixed-variant": "#004493",
+                        "tertiary-fixed-dim": "#ffb4a9",
+                        "tertiary": "#bb1712",
+                        "inverse-primary": "#adc7ff",
+                        "background": "#f8f9fa",
+                        "surface-variant": "#e1e3e4",
+                        "inverse-surface": "#2e3132",
+                        "primary-fixed-dim": "#adc7ff",
+                        "surface": "#f8f9fa",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-primary-container": "#ffffff",
+                        "surface-container-high": "#e7e8e9",
+                        "surface-container-highest": "#e1e3e4",
+                        "surface-container": "#edeeef",
+                        "tertiary-fixed": "#ffdad5",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#46474a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "xl": "32px",
+                        "md": "16px",
+                        "max-width": "1280px",
+                        "margin-desktop": "48px",
+                        "base": "8px",
+                        "lg": "24px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Manrope", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"],
+                        "body-lg": ["Inter", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"],
+                        "body-md": ["Inter", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"],
+                        "display-lg": ["Manrope", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"],
+                        "label-lg": ["Inter", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"],
+                        "title-lg": ["Manrope", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"],
+                        "headline-lg": ["Manrope", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"],
+                        "label-sm": ["Inter", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "display-lg": ["57px", { "lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "500" }],
+                        "title-lg": ["22px", { "lineHeight": "28px", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .shadow-elevation-2 {
+            box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col font-body-lg pb-24 md:pb-0">
+<!-- TopAppBar -->
+<header class="w-full top-0 bg-surface dark:bg-background z-40 relative">
+<div class="flex justify-between items-center px-md h-16 w-full max-w-max-width mx-auto">
+<div class="flex items-center gap-2 text-primary dark:text-primary-fixed active:scale-95 duration-150 ease-in-out cursor-pointer">
+<img alt="VeriMap Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ADBb0ui1tDahI8hxad2Lf2tOmG4ZIhCTLaDnBheS5PBQFKzUJnmcs0c52CptWkP_dwAsHTKkH2uBRreClCUm397ALxpQbEhjzk4YnvEAskUo3Q6bxVNyR_13gOj8EBbQBJNslbCVabjP1bUF6fc7yvoLts-1BoEwvlZRDpBTMPEXYjTnDeE2pM_UcNns5-T2PpW4FA5tIxYc9KQZGp3P8-riu4E7YcQm3XWv7mHZetdxA7Jc7TrB5IWaZq5wyc_k"/>
+<span class="text-title-lg font-title-lg font-bold text-primary dark:text-primary-fixed tracking-tight">VeriMap</span>
+</div>
+<!-- Web Navigation Cluster (Hidden on Mobile) -->
+<nav class="hidden md:flex gap-lg items-center">
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed font-medium hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors px-4 py-2 rounded-lg" href="#">首頁</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors px-4 py-2 rounded-lg" href="#">歷史記錄</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors px-4 py-2 rounded-lg" href="#">個人檔案</a>
+</nav>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col items-center justify-center px-margin-mobile md:px-margin-desktop w-full max-w-max-width mx-auto gap-xl mt-8 md:mt-16">
+<!-- Header Text -->
+<div class="text-center max-w-2xl flex flex-col gap-sm">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface">揭開真相</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">AI 驅動的評論可信度分析工具</p>
+</div>
+<!-- Search Input Card (Level 2 Elevation) -->
+<div class="w-full max-w-xl bg-surface-container-lowest rounded-lg p-md shadow-elevation-2 border border-surface-variant flex flex-col gap-md">
+<div class="relative w-full group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant">link</span>
+</div>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-bright border border-outline-variant rounded-lg font-body-lg text-body-lg text-on-surface placeholder-on-surface-variant focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm" placeholder="在此貼上 Google 地圖商家網址..." type="text"/>
+</div>
+<button class="w-full bg-primary-container text-on-primary-container font-label-lg text-label-lg py-3 px-6 rounded-lg flex items-center justify-center gap-2 hover:bg-surface-tint hover:text-on-primary transition-colors active:scale-95 duration-150 ease-in-out shadow-sm"><span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>rocket_launch</span>啟動 VeriScore 分析</button>
+</div>
+<!-- Recent Analyses (Subtle Level 1 Surface) -->
+<div class="w-full max-w-xl mt-8">
+<h2 class="font-label-lg text-label-lg text-on-surface-variant mb-4 pl-1">最近的分析記錄</h2>
+<div class="flex flex-col gap-sm">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 flex items-center justify-between hover:bg-surface-container-low transition-colors cursor-pointer group shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed">
+<span class="material-symbols-outlined">storefront</span>
+</div>
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface">鏽錨餐廳</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">2 小時前分析</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="h-2 w-16 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 85%;"></div>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-medium">85%</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 flex items-center justify-between hover:bg-surface-container-low transition-colors cursor-pointer group shadow-sm">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-error-container flex items-center justify-center text-on-error-container">
+<span class="material-symbols-outlined">restaurant</span>
+</div>
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface">42號小館</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">5 小時前分析</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="h-2 w-16 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-error" style="width: 32%;"></div>
+</div>
+<span class="font-label-sm text-label-sm text-error font-medium">32%</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-md py-sm h-20 bg-surface dark:bg-background border-t border-outline-variant dark:border-outline shadow-sm z-50">
+<!-- Active Item: Home -->
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-4 py-1 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-sm text-label-sm mt-1">首頁</span>
+</a>
+<!-- Inactive Items -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-full transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-sm text-label-sm mt-1">歷史記錄</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline px-4 py-1 hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-full transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm mt-1">個人檔案</span>
+</a>
+</nav>
+</body></html>

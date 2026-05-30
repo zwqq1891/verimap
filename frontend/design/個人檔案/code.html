@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+<html lang="zh-TW"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VeriMap - 個人檔案</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline": "#727785",
+                      "secondary-container": "#e3e2e6",
+                      "on-surface-variant": "#414754",
+                      "on-error": "#ffffff",
+                      "on-surface": "#191c1d",
+                      "primary-container": "#1a73e8",
+                      "on-tertiary-fixed": "#410001",
+                      "tertiary": "#bb1712",
+                      "on-secondary-fixed": "#1a1b1e",
+                      "on-primary-container": "#ffffff",
+                      "error": "#ba1a1a",
+                      "surface-container-highest": "#e1e3e4",
+                      "on-secondary-container": "#646468",
+                      "on-primary-fixed-variant": "#004493",
+                      "on-error-container": "#93000a",
+                      "outline-variant": "#c1c6d6",
+                      "surface-dim": "#d9dadb",
+                      "surface-container": "#edeeef",
+                      "tertiary-fixed-dim": "#ffb4a9",
+                      "inverse-primary": "#adc7ff",
+                      "surface-variant": "#e1e3e4",
+                      "error-container": "#ffdad6",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-bright": "#f8f9fa",
+                      "secondary-fixed": "#e3e2e6",
+                      "on-tertiary": "#ffffff",
+                      "secondary-fixed-dim": "#c7c6ca",
+                      "on-tertiary-container": "#ffffff",
+                      "inverse-on-surface": "#f0f1f2",
+                      "primary-fixed": "#d8e2ff",
+                      "surface-container-low": "#f3f4f5",
+                      "on-background": "#191c1d",
+                      "primary-fixed-dim": "#adc7ff",
+                      "primary": "#005bbf",
+                      "on-secondary": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "surface-tint": "#005bc0",
+                      "tertiary-fixed": "#ffdad5",
+                      "tertiary-container": "#df3429",
+                      "surface": "#f8f9fa",
+                      "on-primary-fixed": "#001a41",
+                      "inverse-surface": "#2e3132",
+                      "background": "#f8f9fa",
+                      "on-secondary-fixed-variant": "#46474a",
+                      "surface-container-high": "#e7e8e9",
+                      "secondary": "#5e5e62",
+                      "on-tertiary-fixed-variant": "#930004"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "max-width": "1280px",
+                      "margin-desktop": "48px",
+                      "xs": "4px",
+                      "xl": "32px",
+                      "gutter": "24px",
+                      "sm": "8px",
+                      "md": "16px",
+                      "lg": "24px",
+                      "base": "8px",
+                      "margin-mobile": "16px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": ["Manrope", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"],
+                      "headline-lg": ["Manrope", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"],
+                      "body-lg": ["Inter", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"],
+                      "title-lg": ["Manrope", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"],
+                      "body-md": ["Inter", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"],
+                      "label-sm": ["Inter", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"],
+                      "label-lg": ["Inter", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"],
+                      "display-lg": ["Manrope", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "sans-serif"]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "title-lg": [
+                              "22px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "11px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.5px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-lg": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.1px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "57px",
+                              {
+                                      "lineHeight": "64px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        /* Ambient shadow utility for Level 2 */
+        .ambient-shadow-md {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 0px 2px rgba(26, 115, 232, 0.05); /* Slight blue tint */
+        }
+        
+        /* Ambient shadow utility for Level 3 */
+        .ambient-shadow-lg {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 0px 4px rgba(26, 115, 232, 0.05);
+        }
+
+        /* PB-Safe padding for Bottom Nav */
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom, 16px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-40 bg-surface shadow-sm">
+<div class="flex items-center justify-between px-margin-mobile md:px-margin-desktop py-4 max-w-max-width mx-auto">
+<div class="flex items-center gap-sm">
+<img alt="VeriMap Logo" class="w-8 h-8 rounded-DEFAULT object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ui1tDahI8hxad2Lf2tOmG4ZIhCTLaDnBheS5PBQFKzUJnmcs0c52CptWkP_dwAsHTKkH2uBRreClCUm397ALxpQbEhjzk4YnvEAskUo3Q6bxVNyR_13gOj8EBbQBJNslbCVabjP1bUF6fc7yvoLts-1BoEwvlZRDpBTMPEXYjTnDeE2pM_UcNns5-T2PpW4FA5tIxYc9KQZGp3P8-riu4E7YcQm3XWv7mHZetdxA7Jc7TrB5IWaZq5wyc_k"/>
+<span class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg font-bold text-primary">VeriMap</span>
+</div>
+<!-- Desktop Nav Cluster (Hidden on mobile) -->
+<nav class="hidden md:flex gap-gutter items-center">
+<a class="font-title-lg text-title-lg text-secondary hover:bg-surface-container-high transition-colors px-4 py-2 rounded-lg" href="#">Home</a>
+<a class="font-title-lg text-title-lg text-secondary hover:bg-surface-container-high transition-colors px-4 py-2 rounded-lg" href="#">History</a>
+<a class="font-title-lg text-title-lg text-primary font-bold hover:bg-surface-container-high transition-colors px-4 py-2 rounded-lg" href="#">Profile</a>
+</nav>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow max-w-max-width mx-auto w-full px-margin-mobile md:px-margin-desktop py-lg pb-32">
+<div class="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-gutter">
+<!-- Left Column / Full Width Mobile -->
+<div class="col-span-4 md:col-span-8 lg:col-span-4 flex flex-col gap-lg">
+<!-- User Profile Section (Level 1 Surface) -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg flex flex-col items-center text-center">
+<div class="w-24 h-24 rounded-full overflow-hidden mb-4 ambient-shadow-md border-2 border-surface">
+<img alt="A professional headshot of an East Asian male wearing a clean, modern button-down shirt. The background is a soft, high-key white, illuminated by bright, clear lighting to match a light-mode aesthetic. The mood is confident, calm, and analytical, fitting for a sophisticated tech platform. The colors are predominantly light neutrals with crisp definition." class="w-full h-full object-cover" data-alt="A professional headshot of an East Asian male wearing a clean, modern button-down shirt. The background is a soft, high-key white, illuminated by bright, clear lighting to match a light-mode aesthetic. The mood is confident, calm, and analytical, fitting for a sophisticated tech platform. The colors are predominantly light neutrals with crisp definition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBotv-3k9fTLaVQdRQJq_99AZrp_AKais_eqZQ-FTbKwSwwO7TRbAUBJzViO8tK55nnRphO7kgOXblx4xIU6nbH3vRVWKzPLmcqziv6rrXhzmzkVzw-dreb1QPp-OqQ7eeUkvN2Aw8pN0s5IGCjsomWLIkXL-DILAn19-o4t1b2Wbf10UUGF7-UEje5aaysnwJYqUgbUIyweXFYVb4BZookC9vXZMZXjIx9q-BPlqqE157_KbJ8dXkcTdJ73LJCRJ2102WtUfT-Gu-0"/>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-1">陳大文</h1>
+<p class="font-body-lg text-body-lg text-secondary mb-6">raymond.chan@example.com</p>
+<button class="w-full bg-primary-container text-on-primary-container font-label-lg text-label-lg rounded-lg py-3 px-4 hover:bg-primary transition-colors active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">edit</span>
+                        編輯個人資料
+                    </button>
+</div>
+</div>
+<!-- Right Column / Full Width Mobile -->
+<div class="col-span-4 md:col-span-8 lg:col-span-8 flex flex-col gap-lg">
+<!-- Stats Section (Bento Grid Style) -->
+<div class="grid grid-cols-2 gap-md">
+<!-- Stat Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-md ambient-shadow-md flex flex-col gap-sm justify-between hover:bg-surface-container-low transition-colors cursor-pointer border border-transparent hover:border-outline-variant">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<h3 class="font-title-lg text-title-lg">已分析商家數</h3>
+</div>
+<div class="flex items-baseline gap-2 mt-2">
+<span class="font-display-lg text-display-lg text-on-surface">142</span>
+<span class="font-label-lg text-label-lg text-secondary">間</span>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-md ambient-shadow-md flex flex-col gap-sm justify-between hover:bg-surface-container-low transition-colors cursor-pointer border border-transparent hover:border-outline-variant">
+<div class="flex items-center gap-2 text-tertiary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bookmark</span>
+<h3 class="font-title-lg text-title-lg text-on-surface">我的收藏</h3>
+</div>
+<div class="flex items-baseline gap-2 mt-2">
+<span class="font-display-lg text-display-lg text-on-surface">38</span>
+<span class="font-label-lg text-label-lg text-secondary">項</span>
+</div>
+</div>
+</div>
+<!-- Menu Options List -->
+<div class="bg-surface-container-lowest rounded-xl ambient-shadow-md overflow-hidden flex flex-col">
+<a class="flex items-center justify-between p-md border-b border-surface-variant hover:bg-surface-container-low transition-colors group" href="#">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">manage_accounts</span>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface font-medium">帳號設定</span>
+</div>
+<span class="material-symbols-outlined text-secondary">chevron_right</span>
+</a>
+<a class="flex items-center justify-between p-md border-b border-surface-variant hover:bg-surface-container-low transition-colors group" href="#">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">tune</span>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface font-medium">分析偏好</span>
+</div>
+<span class="material-symbols-outlined text-secondary">chevron_right</span>
+</a>
+<a class="flex items-center justify-between p-md border-b border-surface-variant hover:bg-surface-container-low transition-colors group" href="#">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">workspace_premium</span>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface font-medium">訂閱方案</span>
+</div>
+<span class="material-symbols-outlined text-secondary">chevron_right</span>
+</a>
+<a class="flex items-center justify-between p-md border-b border-surface-variant hover:bg-surface-container-low transition-colors group" href="#">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">help</span>
+</div>
+<span class="font-body-lg text-body-lg text-on-surface font-medium">幫助與支援</span>
+</div>
+<span class="material-symbols-outlined text-secondary">chevron_right</span>
+</a>
+<a class="flex items-center justify-between p-md hover:bg-error-container/20 transition-colors group" href="#">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-error group-hover:bg-error-container transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">logout</span>
+</div>
+<span class="font-body-lg text-body-lg text-error font-medium">登出</span>
+</div>
+</a>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-surface-container shadow-lg">
+<!-- Home (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-secondary-container hover:bg-secondary-container/50 transition-all rounded-xl px-4 py-1 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-label-lg text-label-lg">Home</span>
+</a>
+<!-- History (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-secondary-container hover:bg-secondary-container/50 transition-all rounded-xl px-4 py-1 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">history</span>
+<span class="font-label-lg text-label-lg">History</span>
+</a>
+<!-- Profile (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-6 py-1 hover:bg-secondary-container/50 transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-lg text-label-lg font-medium">Profile</span>
+</a>
+</nav>
+</body></html>
